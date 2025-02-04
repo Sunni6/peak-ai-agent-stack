@@ -21,8 +21,8 @@ from voyageai import Client
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load environment variables
-env_path = Path('/Users/dleer.ious/development/rin_kg/chat-graphrag/.env')
+# Update env path to be relative to project root
+env_path = Path(__file__).parents[5] / '.env'
 load_dotenv(dotenv_path=env_path)
 
 # Verify Neo4j connection details

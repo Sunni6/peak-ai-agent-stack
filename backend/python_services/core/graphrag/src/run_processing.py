@@ -1,20 +1,57 @@
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 from neo4j import GraphDatabase
 import logging
 from datetime import datetime
-from core.graphrag.src.message_processor import process_messages, connect_to_mongodb, fix_session_ids, process_existing_messages
-from core.graphrag.src.conversation_processor import (
+
+# Add the project root to Python path
+project_root = Path(__file__).parent.parent.parent.parent.parent
+sys.path.append(str(project_root))
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Load environment variables from project root
+env_path = project_root / '.env'
+load_dotenv(dotenv_path=env_path)
+
+from backend.python_services.core.graphrag.src.message_processor import (
+    process_messages,
+    connect_to_mongodb,
+    fix_session_ids,
+    process_existing_messages
+)
+from backend.python_services.core.graphrag.src.conversation_processor import (
     diagnose_conversations,
     analyze_conversations,
     update_conversation_analysis,
     deduplicate_conversations
 )
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+def check_neo4j_state(driver):
+    """Check the current state of messages and conversations in Neo4j"""
+    with driver.session() as session:
+        result = session.run("""
+        MATCH (m:Message)
+        WHERE m.timestamp >= datetime('2025-01-30T10:00:41.913000')
+        AND m.timestamp <= datetime('2025-02-03T23:59:59')
+        WITH count(m) as total_messages
+        MATCH (c:Conversation)
+        RETURN 
+            total_messages,
+            count(c) as total_conversations,
+            size([m IN collect(m) WHERE (m)-[:IN_CONVERSATION]->(:Conversation)]) as messages_in_conversations
+        """)
+        stats = result.single()
+        logger.info(f"""
+Neo4j Database State:
+Total Messages: {stats['total_messages']}
+Total Conversations: {stats['total_conversations']}
+Messages in Conversations: {stats['messages_in_conversations']}
+        """)
 
 def initialize_connections():
     """Initialize all necessary connections"""

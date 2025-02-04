@@ -275,52 +275,6 @@ class RinContext:
             logger.error(f"Failed to clear session {session_id}: {e}")
             raise
 
-    async def update_token_status(self, stream_id: str, token_data: dict):
-        """Update token trading status for battle stream"""
-        try:
-            if stream_id in self.battle_contexts:
-                self.battle_contexts[stream_id]['token_status'] = token_data
-                self.battle_contexts[stream_id]['last_token_update'] = datetime.utcnow()
-                
-                await self.db.update_battle_status(stream_id, token_data)
-                
-        except Exception as e:
-            logger.error(f"Failed to update token status: {e}")
-            raise
-
-    async def store_message_and_check(self, session_id: str, role: str, content: str):
-        """Store message and check if summarization is needed"""
-        await self.db.add_message(session_id, role, content, interaction_type='chat')
-        
-        # Check last summarization time
-        config = await self.db.get_context_configuration(session_id)
-        last_summary = config.get('last_summarized') if config else None
-        
-        if last_summary and (datetime.utcnow() - last_summary).total_seconds() < self.SUMMARY_COOLDOWN:
-            return
-            
-        # Use tiktoken for accurate counting
-        token_count = await self._count_tokens(session_id)
-        if token_count > self.TOKEN_THRESHOLD:
-            asyncio.create_task(self._background_summarize(session_id))
-
-    async def _background_summarize(self, session_id: str):
-        """Run summarization without blocking the main conversation"""
-        try:
-            # Do the summarization
-            await self.summarize_conversation_context(session_id)
-            
-            # Mark in DB that summarization is complete
-            await self.db.update_context_configuration(
-                session_id,
-                {"last_summarized": datetime.utcnow()}
-            )
-            
-            logger.info(f"Background summarization completed for {session_id}")
-            
-        except Exception as e:
-            logger.error(f"Background summarization failed: {e}")
-
     async def get_session_history(self, session_id: str) -> List[Dict]:
         """Get session message history from database"""
         try:

@@ -50,19 +50,19 @@ RinAI features an advanced multimodal AI Vtuber live stream orchestrator. We wil
 3. Architecture
 
 ┌─────────────────────────────────────┐
-│             Front-End              │
-│  (React-like or similar Web App)   │
-│    - Renders Rin's chat interface  │
-│    - Sends user messages           │
-└───────────────┬────────────────────┘
+│             Front-End               │
+│  (React-like or similar Web App)    │
+│    - Renders Rin's chat interface   │
+│    - Sends user messages            │
+└───────────────┬─────────────────────┘
                 │  (port 3003)
-┌───────────────┴────────────────────┐
+┌───────────────┴─────────────────────┐
 │           Node.js Backend           │
 │         (Orchestrator on 3000)      │
 │  - Routes messages to Python Svc    │
-└───────────────┬────────────────────┘
+└───────────────┬─────────────────────┘
                 │  (port 8000)
-┌───────────────┴────────────────────┐
+┌───────────────┴─────────────────────┐
 │        Python Services Server       │
 │          (REST API on 8000)         │
 │  - Handles LLM calls                │

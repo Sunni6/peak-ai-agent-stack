@@ -9,8 +9,8 @@ import logging
 from bson.objectid import ObjectId
 from core.graphrag.src.conversation_processor import diagnose_conversations
 
-# Load environment variables
-env_path = Path('/Users/dleer.ious/development/rin_kg/chat-graphrag/.env')
+# Update env path to be relative to project root
+env_path = Path(__file__).parents[5] / '.env'
 load_dotenv(dotenv_path=env_path)
 
 # Configure logging
