@@ -8,7 +8,6 @@ from fastapi.security import APIKeyHeader, HTTPBearer
 from pydantic_settings import BaseSettings
 from pydantic import BaseModel, ValidationError, Field
 from dotenv import load_dotenv
-from redis.asyncio import Redis
 import httpx
 import socket
 import sys
@@ -37,10 +36,6 @@ class Settings(BaseSettings):
     PYTHON_SERVICE_API_KEY: str
     PYTHON_SERVICE_SECRET: str
     PYTHON_SERVICE_URL: str = "http://localhost:8000" 
-    REDIS_URL: str
-    REDIS_HOST: str
-    REDIS_PORT: int
-    REDIS_PASSWORD: str = None
     MONGO_URI: str
     MONGO_DB: str
     
@@ -74,16 +69,14 @@ def verify_api_key(api_key: str = Depends(api_key_header)) -> bool:
 @app.get("/health")
 async def health_check():
     try:
-        # Check all critical services
-        redis_status = await redis_client.ping() if redis_client else False
+        # Remove Redis check
         mongo_status = await MongoManager.is_connected()
         agent_status = agent is not None and hasattr(agent, 'is_initialized')
         
-        if all([redis_status, mongo_status, agent_status]):
+        if all([mongo_status, agent_status]):
             return {
                 "status": "healthy",
                 "service": "python-nlp",
-                "redis_connected": True,
                 "mongo_connected": True,
                 "agent_initialized": True,
                 "timestamp": datetime.utcnow().isoformat()
@@ -92,7 +85,6 @@ async def health_check():
             return {
                 "status": "degraded",
                 "service": "python-nlp",
-                "redis_connected": bool(redis_status),
                 "mongo_connected": bool(mongo_status),
                 "agent_initialized": bool(agent_status),
                 "timestamp": datetime.utcnow().isoformat()
@@ -105,49 +97,18 @@ async def health_check():
             "timestamp": datetime.utcnow().isoformat()
         }
 
-# Add at top level
-redis_client: Redis = None
-
 @app.on_event("startup")
 async def startup_event():
-    global redis_client, agent
+    global agent  # Remove redis_client from global
     
     try:
         # Initialize MongoDB first
         await MongoManager.initialize(settings.MONGO_URI, settings.MONGO_DB)
         logger.info("✅ MongoDB connection established")
         
-        # Initialize Redis with similar config to Node.js
-        redis_client = Redis(
-            host=settings.REDIS_HOST,
-            port=settings.REDIS_PORT,
-            password=settings.REDIS_PASSWORD,
-            decode_responses=True,
-            retry_on_timeout=True,
-            socket_timeout=5,
-            socket_connect_timeout=5,
-            # Match Node.js retry strategy
-            retry_on_error=[TimeoutError, ConnectionError],
-            max_connections=10,
-            health_check_interval=2000
-        )
-
-        # Test connection with retries (similar to Node.js)
-        retry_count = 0
-        max_retries = 5
-        while retry_count < max_retries:
-            try:
-                await redis_client.ping()
-                logger.info("✅ Redis connection established")
-                break
-            except Exception as e:
-                retry_count += 1
-                delay = min(retry_count * 50, 2000)  # Match Node.js retry delay
-                if retry_count >= max_retries:
-                    logger.error("❌ Redis retry limit exceeded")
-                    raise
-                logger.warning(f"Retrying Redis connection in {delay}ms...")
-                await asyncio.sleep(delay / 1000)  # Convert ms to seconds
+        # Remove all Redis initialization code
+        # redis_client = Redis(...)
+        # await redis_client.ping()
         
         # Initialize Rin agent with proper database
         agent = RinAgent(mongo_uri=settings.MONGO_URI)
@@ -161,8 +122,9 @@ async def startup_event():
 @app.on_event("shutdown")
 async def shutdown_event():
     try:
-        if 'redis_client' in globals() and redis_client:
-            await redis_client.close()
+        # Remove Redis cleanup
+        # if redis_client:
+        #     await redis_client.close()
         await MongoManager.close()
         logger.info("Services shut down successfully")
     except Exception as e:

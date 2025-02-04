@@ -1,8 +1,8 @@
 RinAI Advanced Chat Agent
 
-1. Overview
 RinAI is an advanced chat companion, powered by graph RAG (Retrieval-Augmented Generation), LLM-based context management, and real-time tool usage. The project is designed to be modular and extensible, helping enthusiasts and developers experiment with:
 
+Components
 Front-end web interface for chat interactions (Node + React-like stack).
 Backend orchestrator (Node.js) handling API calls between front end and python servics.
 
@@ -19,7 +19,7 @@ Front-end: Port 3003
 Python Services: Port 8000 (auto-starts when backend is running)
 Once running, navigate to http://localhost:3003 to access the Rin web app.
 
-2. Features
+Features
 Multi-tier Architecture
 - Node.js backend orchestrating API calls between front end and python servics.
 - Python microservices for specialized tasks and LLM calls.
@@ -31,7 +31,7 @@ Rin Chat Agent
 - Dynamic usage of a Smart LLM Gateway to decide which model to employ.
 - Hybrid Query with Graph RAG
 
-Rin Graph RAG
+Graph RAG
 - Leverages approx 14,000 messages stored in a Neo4j or other DB with advanced indexing.
 - Retrieval pipeline using semantic embeddings and sentiment + subject classification.
 - Hybrid search combining vector lookups and rating-based filtering.
@@ -46,30 +46,6 @@ Summarization & Context Management
 
 Future Expansion
 RinAI features an advanced multimodal AI Vtuber live stream orchestrator. We will release the code for this soon.
-
-3. Architecture
-
-┌─────────────────────────────────────┐
-│             Front-End               │
-│  (React-like or similar Web App)    │
-│    - Renders Rin's chat interface   │
-│    - Sends user messages            │
-└───────────────┬─────────────────────┘
-                │  (port 3003)
-┌───────────────┴─────────────────────┐
-│           Node.js Backend           │
-│         (Orchestrator on 3000)      │
-│  - Routes messages to Python Svc    │
-└───────────────┬─────────────────────┘
-                │  (port 8000)
-┌───────────────┴─────────────────────┐
-│        Python Services Server       │
-│          (REST API on 8000)         │
-│  - Handles LLM calls                │
-│  - Graph RAG retrieval              │
-│  - Context summarization logic      │
-│  - Tool usage (crypto, perplexity)  │
-└─────────────────────────────────────┘
 
 Front-End (Port 3003)
 A user-facing web app providing an interactive, “cute” interface to chat with Rin.
@@ -87,7 +63,7 @@ Maintains the Graph RAG pipeline, interacting with the conversation corpus (in N
 Summarizes conversation when tokens exceed thresholds.
 Calls external APIs (CoinGecko, Perplexity, etc.) as needed.
 
-4. Prerequisites
+Prerequisites
 Before installing and running the stack, ensure you have the following:
 
 Node.js (v16+ recommended)
@@ -96,7 +72,7 @@ pip and/or virtual environment manager (e.g., venv, conda)
 (Optional) Neo4j or another graph database for storing the conversation corpus.
 (Optional) Docker (if you prefer containerized deployment).
 
-5. Installation and Quick Start
+Installation and Quick Start
 Follow these steps to launch the entire ecosystem quickly:
 
 Clone the Repository:
@@ -142,7 +118,7 @@ Access the Front-End:
 Navigate to http://localhost:3003 in your web browser.
 Start chatting with Rin!
 
-6. Usage
+Usage
 Open the Web App: Go to http://localhost:3003.
 
 Send a Message: Type your query into the input box.
@@ -160,7 +136,7 @@ Receive Final Answer:
 
 The system compiles the final answer from the tool outputs, context from the RAG engine, and the system prompt designed for Rin’s personality.
 
-7. Configuration
+Configuration
 Most configuration parameters are housed in environment variables or small config files within each subfolder. Some examples:
 
 Backend:
@@ -191,14 +167,14 @@ NEO4J_USER=neo4j
 NEO4J_PASSWORD=your-password
 EMBEDDINGS_MODEL=all-mpnet-base-v2
 
-8. Needing a DB Schema
+Needing a DB Schema
 For the Graph RAG functionality, you’ll want a Neo4j instance (or equivalent). We will soon provide:
 
 DB Schema: Node labels (e.g., Message), relationships (e.g., HAS_SENTIMENT, HAS_SUBJECT), indices, constraints.
 Processing Script: Bulk imports the 14,000+ Rin messages, setting attributes like sentiment, subject, effectiveness rating, etc.
 Stay tuned for an update in which we release these schema details and a sample dataset or seeds for your own usage.
 
-9. Roadmap and Future Plans
+Roadmap and Future Plans
 Multimodal Vtuber Live Stream
 We plan to release an orchestrator that merges this chat agent with a dual-Vtuber streaming setup. This will enable interactive live content with dynamic chat overlays, real-time sentiment analysis, and possible crypto trades triggered by audience sentiment.
 
@@ -208,7 +184,7 @@ Additional APIs and specialized tools could be integrated (e.g., coding assistan
 Advanced Orchestration
 Enhancements to the summarization logic, better concurrency handling, and plugin-based expansions for the agent’s toolkit.
 
-10. Contributing
+Contributing
 We heartily welcome and appreciate any and all contributions! To get started:
 
 Fork this repository.
@@ -216,5 +192,5 @@ Create a new branch for your feature or fix.
 Submit a Pull Request describing the changes you’ve made.
 We will review PRs as quickly as we can. Please read our CONTRIBUTING.md (coming soon) for more detailed guidelines on style, commits, and testing.
 
-11. License
+License
 This project is licensed under the MIT License. Feel free to use, modify, and distribute this software as stated within the license terms.

@@ -3,7 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('./config');
 const { connectToMongoDB } = require('./utils/mongoClient');
-const { connectToRedis } = require('./utils/redisClient');
 const morgan = require('morgan');
 const logger = require('./utils/logger');
 const { spawn } = require('child_process');
@@ -15,7 +14,7 @@ const rinRoutes = require('./routes/rinRoutes');
 const app = express();
 const frontendApp = express();
 
-// Backend port (3000) - for Python service, MongoDB, Redis etc.
+// Backend port (3000) - for Python service, MongoDB, etc.
 const BACKEND_PORT = process.env.BACKEND_PORT || 3000;
 
 // Frontend port (3003) - for serving the client
@@ -203,9 +202,6 @@ const startServer = async () => {
         await connectToMongoDB();
         logger.info('✅ MongoDB connected successfully');
 
-        const redisClient = await connectToRedis();
-        logger.info('✅ Redis connected successfully');
-
         // Start Python API server
         const pythonProcess = await startPythonServer();
         logger.info('✅ Python service started successfully');
@@ -223,10 +219,7 @@ const startServer = async () => {
         process.on('SIGTERM', async () => {
             logger.info('Shutting down...');
             if (pythonProcess) pythonProcess.kill();
-            await Promise.all([
-                redisClient.quit(),
-                mongoose.connection.close()
-            ]);
+            await mongoose.connection.close();
             process.exit(0);
         });
 
