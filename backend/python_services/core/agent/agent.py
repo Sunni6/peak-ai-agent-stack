@@ -141,7 +141,6 @@ class RinAgent:
             )
             logger.info("[CHECKPOINT 6] Interaction stored")
 
-            # Return just the response string like BiscuitAgent
             return response
 
         except Exception as e:

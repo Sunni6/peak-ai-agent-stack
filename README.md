@@ -3,20 +3,20 @@ RinAI Advanced Chat Agent
 RinAI is an advanced chat companion, powered by graph RAG (Retrieval-Augmented Generation), LLM-based context management, and real-time tool usage. The project is designed to be modular and extensible, helping enthusiasts and developers experiment with:
 
 Components
-Front-end web interface for chat interactions (Node + React-like stack).
-Backend orchestrator (Node.js) handling API calls between front end and python servics.
-
-Python services that perform the heavy lifting for:
-- Summarization of context.
-- Retrieval and scoring from a large conversation corpus.
-- Hybrid query analysis using Graph RAG capabilities and semantic embeddings.
-- On-the-fly tool calls to handle crypto price checks and web searches.
+1. Front-end web interface for chat interactions (Node + React-like stack).
+2. Backend orchestrator (Node.js) handling API calls between front end and python servics.
+3. Python services that perform the heavy lifting for:
+    - Agent orchestration and message generation.
+    - Active summarization of session context.
+    - Retrieval and scoring from a large conversation corpus.
+    - Hybrid query analysis using Graph RAG capabilities and semantic embeddings.
+    - Tool calls to handle crypto price checks and web searches.
+    - Parallel execution of tools, RAG and LLM calls.
 
 By default, you can run all three services locally on the following ports:
-
-Backend (Node.js): Port 3000
-Front-end: Port 3003
-Python Services: Port 8000 (auto-starts when backend is running)
+- Backend (Node.js): Port 3000
+- Front-end: Port 3003
+- Python Services: Port 8000 (auto-starts when backend is running)
 Once running, navigate to http://localhost:3003 to access the Rin web app.
 
 Features
@@ -44,24 +44,21 @@ Summarization & Context Management
 - Automated summarization once conversation tokens exceed a threshold.
 - Summaries keep the latest 25% of messages untouched and summarize the older 75% in the background.
 
-Future Expansion
-RinAI features an advanced multimodal AI Vtuber live stream orchestrator. We will release the code for this soon.
-
 Front-End (Port 3003)
-A user-facing web app providing an interactive, “cute” interface to chat with Rin.
-All user inputs are captured here and forwarded to the Node backend.
+- A user-facing web app providing an interactive, “cute” interface to chat with Rin.
+- All user inputs are captured here and forwarded to the Node backend.
 
 Backend (Port 3000)
-Routes user messages to the right services.
+- Routes user messages to the right services.
 
 Python Services (Port 8000)
-Applies logic to decide whether a tool should be used based on a “grok LLM call.”
-Keeps track of the conversation’s token usage.
-Integrates the final system prompt, RAG data, and tool outputs into one cohesive prompt for the LLM.
-Contains specialized scripts and endpoints for retrieval, summarization, and tool invocations.
-Maintains the Graph RAG pipeline, interacting with the conversation corpus (in Neo4j or another DB).
-Summarizes conversation when tokens exceed thresholds.
-Calls external APIs (CoinGecko, Perplexity, etc.) as needed.
+- Applies logic to decide whether a tool should be used based on a “grok LLM call.”
+- Keeps track of the conversation’s token usage.
+- Integrates the final system prompt, RAG data, and tool outputs into one cohesive prompt for the LLM.
+- Contains specialized scripts and endpoints for retrieval, summarization, and tool invocations.
+- Maintains the Graph RAG pipeline, interacting with the conversation corpus (in Neo4j or another DB).
+- Summarizes conversation when tokens exceed thresholds.
+- Calls external APIs (CoinGecko, Perplexity, etc.) as needed.
 
 Prerequisites
 Before installing and running the stack, ensure you have the following:
@@ -69,59 +66,73 @@ Before installing and running the stack, ensure you have the following:
 Node.js (v16+ recommended)
 Python (3.9+ recommended)
 pip and/or virtual environment manager (e.g., venv, conda)
-(Optional) Neo4j or another graph database for storing the conversation corpus.
+Neo4j or another graph database for storing the conversation corpus.
 (Optional) Docker (if you prefer containerized deployment).
 
 Installation and Quick Start
 Follow these steps to launch the entire ecosystem quickly:
 
-Clone the Repository:
+## 1. Clone the Repository
+git clone https://github.com/<your-username>/peak-ai-agent.git
+cd peak-ai-agent
 
-bash
-Copy
-Edit
-git clone https://github.com/<your-username>/wren-open-agent.git
-cd wren-open-agent
-Install Node Dependencies:
+## 2. Node.js Setup
+1. Install Node.js (v18+ recommended)
+   - Download from [nodejs.org](https://nodejs.org/)
+   - Or use nvm (Node Version Manager):
+     ```bash
+     nvm install 18
+     nvm use 18
+     ```
 
-bash
-Copy
-Edit
-cd backend
-npm install
-Install Python Dependencies:
+2. Install Node.js dependencies:
+   ```bash
+   cd backend/node
+   npm install
+   ```
 
-bash
-Copy
-Edit
-cd ../python-services
-pip install -r requirements.txt
-Start the Backend:
+## 3. Python Environment Setup
+1. Create Python virtual environment (Python 3.10+ recommended):
+   ```bash
+   cd backend/python_services
+   python -m venv venv
+   ```
 
-bash
-Copy
-Edit
-cd ../backend
-npm run start
-The backend runs on port 3000 by default.
-This automatically spawns the front-end on port 3003 if configured.
-Start the Python Services (in a separate terminal):
+2. Activate virtual environment:
+   - Windows:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - Unix/MacOS:
+     ```bash
+     source venv/bin/activate
+     ```
 
-bash
-Copy
-Edit
-cd ../python-services
-python app.py
-The Python services run on port 8000 by default.
-Access the Front-End:
+3. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Navigate to http://localhost:3003 in your web browser.
-Start chatting with Rin!
+## 4. Environment Configuration
+Create `.env` file in `/backend` directory:
 
-Usage
-Open the Web App: Go to http://localhost:3003.
+## 5. Start the Application
+1. Start the server (this will launch both Node.js and Python services):
+   ```bash
+   cd backend/node
+   node server.js
+   ```
 
-Send a Message: Type your query into the input box.
+2. Access the application:
+   - Open your browser and navigate to: `http://localhost:3003`
+   - The backend API will be running on: `http://localhost:3000`
+   - The Python service will be running on: `http://localhost:8000` it will start automatically when the backend is running.
+
+## Common Issues
+1. Port conflicts: Ensure ports 3000, 3003, and 8000 are available
+2. Python venv: Make sure you're in the virtual environment when installing requirements
+3. Node modules: If you get module not found errors, try `npm install` again
+4. MongoDB connection: Ensure MongoDB is running and URI is correct
 
 Observe Real-Time Conversation:
 
@@ -150,17 +161,13 @@ PYTHON_SERVICE_PORT (default 8000)
 Paths or credentials for the DB (Neo4j, vector store).
 API keys for Perplexity, CoinGecko, or other integrated tools.
 Example .env for Backend
-ini
-Copy
-Edit
+
 PORT=3000
 FRONTEND_PORT=3003
 PERPLEXITY_API_KEY=your-perplexity-key
 COINGECKO_API_URL=https://api.coingecko.com/api/v3/
 Example .env for Python Services
-ini
-Copy
-Edit
+
 PYTHON_SERVICE_PORT=8000
 NEO4J_URI=bolt://localhost:7687
 NEO4J_USER=neo4j
@@ -173,10 +180,6 @@ For the Graph RAG functionality, you’ll want a Neo4j instance (or equivalent).
 DB Schema: Node labels (e.g., Message), relationships (e.g., HAS_SENTIMENT, HAS_SUBJECT), indices, constraints.
 Processing Script: Bulk imports the 14,000+ Rin messages, setting attributes like sentiment, subject, effectiveness rating, etc.
 Stay tuned for an update in which we release these schema details and a sample dataset or seeds for your own usage.
-
-Roadmap and Future Plans
-Multimodal Vtuber Live Stream
-We plan to release an orchestrator that merges this chat agent with a dual-Vtuber streaming setup. This will enable interactive live content with dynamic chat overlays, real-time sentiment analysis, and possible crypto trades triggered by audience sentiment.
 
 Extended Tooling
 Additional APIs and specialized tools could be integrated (e.g., coding assistance, image generation, scheduling, and more).

@@ -69,7 +69,6 @@ def verify_api_key(api_key: str = Depends(api_key_header)) -> bool:
 @app.get("/health")
 async def health_check():
     try:
-        # Remove Redis check
         mongo_status = await MongoManager.is_connected()
         agent_status = agent is not None and hasattr(agent, 'is_initialized')
         
@@ -99,16 +98,12 @@ async def health_check():
 
 @app.on_event("startup")
 async def startup_event():
-    global agent  # Remove redis_client from global
+    global agent 
     
     try:
         # Initialize MongoDB first
         await MongoManager.initialize(settings.MONGO_URI, settings.MONGO_DB)
         logger.info("✅ MongoDB connection established")
-        
-        # Remove all Redis initialization code
-        # redis_client = Redis(...)
-        # await redis_client.ping()
         
         # Initialize Rin agent with proper database
         agent = RinAgent(mongo_uri=settings.MONGO_URI)
@@ -122,9 +117,6 @@ async def startup_event():
 @app.on_event("shutdown")
 async def shutdown_event():
     try:
-        # Remove Redis cleanup
-        # if redis_client:
-        #     await redis_client.close()
         await MongoManager.close()
         logger.info("Services shut down successfully")
     except Exception as e:
