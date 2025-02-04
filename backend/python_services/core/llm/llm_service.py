@@ -41,8 +41,8 @@ class LLMProvider(Enum):
     ANTHROPIC = "anthropic"
     TOGETHER = "together"
     NOVITA = "novita"
-    GROQ = "groq"  # Add Groq provider
-
+    GROQ = "groq"  
+    
 class LLMService:
     def __init__(self, llm_settings=None):
         # Initialize API keys
@@ -50,7 +50,7 @@ class LLMService:
         self.anthropic_api_key = os.getenv('ANTHROPIC_API_KEY')
         self.together_api_key = os.getenv('TOGETHER_API_KEY')
         self.novita_api_key = os.getenv('NOVITA_API_KEY')
-        self.groq_api_key = os.getenv('GROQ_API_KEY')  # Add Groq API key
+        self.groq_api_key = os.getenv('GROQ_API_KEY')
         
         # Set model type from settings or use default
         self.model_type = (llm_settings or {}).get("model_type", ModelType.CLAUDE_3_5_SONNET)

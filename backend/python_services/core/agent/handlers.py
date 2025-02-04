@@ -32,7 +32,6 @@ class RinMessageHandler:
             # Get response from agent
             response = await self.agent.get_response(session_id, message)
             
-            # Match Biscuit's format exactly
             return {
                 "status": "success",
                 "message": "Response generated",

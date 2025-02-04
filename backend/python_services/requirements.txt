@@ -33,8 +33,5 @@ uvicorn[standard]>=0.25.0
 requests>=2.32.3  # For API testing
 pyjwt>=2.10.1  # For stream auth
 
-# Twitter API client
-tweepy>=4.14.0
-
 # Document processing
 tiktoken>=0.5.2

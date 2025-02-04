@@ -1,108 +1,220 @@
-# Peak AI Agent Stack
+RinAI Advanced Chat Agent
 
-A modern AI chat application featuring Rin, an engaging AI companion built with Node.js and Python.
+1. Overview
+RinAI is an advanced chat companion, powered by graph RAG (Retrieval-Augmented Generation), LLM-based context management, and real-time tool usage. The project is designed to be modular and extensible, helping enthusiasts and developers experiment with:
 
-## Project Structure 
-peak-ai-agent-stack/
-├── frontend/
-│ └── index.html
-├── backend/
-│ ├── node/
-│ │ ├── package.json
-│ │ ├── package-lock.json
-│ │ ├── server.js
-│ │ ├── routes/
-│ │ ├── middleware/
-│ │ ├── utils/
-│ │ └── config/
-│ └── python_services/
-│ └── core/
-│ ├── agent/
-│ └── db/
-├── .gitignore
-└── README.md
+Front-end web interface for chat interactions (Node + React-like stack).
+Backend orchestrator (Node.js) handling API calls between front end and python servics.
 
-## Features
+Python services that perform the heavy lifting for:
+- Summarization of context.
+- Retrieval and scoring from a large conversation corpus.
+- Hybrid query analysis using Graph RAG capabilities and semantic embeddings.
+- On-the-fly tool calls to handle crypto price checks and web searches.
 
-- 🤖 Engaging AI chat interface
-- 🔒 Secure JWT-based authentication
-- 🚀 Rate limiting and request throttling
-- 📝 MongoDB chat history storage
-- 🐍 Python-based AI processing
-- 🔄 Real-time message updates
+By default, you can run all three services locally on the following ports:
 
-## Prerequisites
+Backend (Node.js): Port 3000
+Front-end: Port 3003
+Python Services: Port 8000 (auto-starts when backend is running)
+Once running, navigate to http://localhost:3003 to access the Rin web app.
 
-- Node.js >= 14
-- Python >= 3.8
-- MongoDB
-- Redis (for rate limiting)
+2. Features
+Multi-tier Architecture
+- Node.js backend orchestrating API calls between front end and python servics.
+- Python microservices for specialized tasks and LLM calls.
+- A front-end single-page application for user interaction.
 
-## Installation
+Rin Chat Agent
+- Roleplaying & flirty conversation style (via a specialized fine-tuned LLM).
+- Automatic context summarization when token limits are reached.
+- Dynamic usage of a Smart LLM Gateway to decide which model to employ.
+- Hybrid Query with Graph RAG
 
-1. Clone the repository:
+Rin Graph RAG
+- Leverages approx 14,000 messages stored in a Neo4j or other DB with advanced indexing.
+- Retrieval pipeline using semantic embeddings and sentiment + subject classification.
+- Hybrid search combining vector lookups and rating-based filtering.
 
-```bash
-git clone https://github.com/dleerdefi/peak-ai-agent-stack.git
-cd peak-ai-agent-stack
-```
+Tool-Enabled
+- Crypto Price Checker (via CoinGecko or similar APIs) for real-time or historical pricing.
+- Perplexity API integration for advanced web search when queries involve current events, specialized knowledge, or critical reasoning powered by DeepSeek R1.
 
-2. Install Node.js dependencies:
-```bash
-cd backend/node
+Summarization & Context Management
+- Automated summarization once conversation tokens exceed a threshold.
+- Summaries keep the latest 25% of messages untouched and summarize the older 75% in the background.
+
+Future Expansion
+RinAI features an advanced multimodal AI Vtuber live stream orchestrator. We will release the code for this soon.
+
+3. Architecture
+
+┌─────────────────────────────────────┐
+│             Front-End              │
+│  (React-like or similar Web App)   │
+│    - Renders Rin's chat interface  │
+│    - Sends user messages           │
+└───────────────┬────────────────────┘
+                │  (port 3003)
+┌───────────────┴────────────────────┐
+│           Node.js Backend           │
+│         (Orchestrator on 3000)      │
+│  - Routes messages to Python Svc    │
+└───────────────┬────────────────────┘
+                │  (port 8000)
+┌───────────────┴────────────────────┐
+│        Python Services Server       │
+│          (REST API on 8000)         │
+│  - Handles LLM calls                │
+│  - Graph RAG retrieval              │
+│  - Context summarization logic      │
+│  - Tool usage (crypto, perplexity)  │
+└─────────────────────────────────────┘
+
+Front-End (Port 3003)
+A user-facing web app providing an interactive, “cute” interface to chat with Rin.
+All user inputs are captured here and forwarded to the Node backend.
+
+Backend (Port 3000)
+Routes user messages to the right services.
+
+Python Services (Port 8000)
+Applies logic to decide whether a tool should be used based on a “grok LLM call.”
+Keeps track of the conversation’s token usage.
+Integrates the final system prompt, RAG data, and tool outputs into one cohesive prompt for the LLM.
+Contains specialized scripts and endpoints for retrieval, summarization, and tool invocations.
+Maintains the Graph RAG pipeline, interacting with the conversation corpus (in Neo4j or another DB).
+Summarizes conversation when tokens exceed thresholds.
+Calls external APIs (CoinGecko, Perplexity, etc.) as needed.
+
+4. Prerequisites
+Before installing and running the stack, ensure you have the following:
+
+Node.js (v16+ recommended)
+Python (3.9+ recommended)
+pip and/or virtual environment manager (e.g., venv, conda)
+(Optional) Neo4j or another graph database for storing the conversation corpus.
+(Optional) Docker (if you prefer containerized deployment).
+
+5. Installation and Quick Start
+Follow these steps to launch the entire ecosystem quickly:
+
+Clone the Repository:
+
+bash
+Copy
+Edit
+git clone https://github.com/<your-username>/wren-open-agent.git
+cd wren-open-agent
+Install Node Dependencies:
+
+bash
+Copy
+Edit
+cd backend
 npm install
-```
+Install Python Dependencies:
 
-3. Install Python dependencies:
-```bash
-cd ../python_services
+bash
+Copy
+Edit
+cd ../python-services
 pip install -r requirements.txt
-```
+Start the Backend:
 
-4. Set up environment variables:
-```env
-# In backend/node/.env
+bash
+Copy
+Edit
+cd ../backend
+npm run start
+The backend runs on port 3000 by default.
+This automatically spawns the front-end on port 3003 if configured.
+Start the Python Services (in a separate terminal):
+
+bash
+Copy
+Edit
+cd ../python-services
+python app.py
+The Python services run on port 8000 by default.
+Access the Front-End:
+
+Navigate to http://localhost:3003 in your web browser.
+Start chatting with Rin!
+
+6. Usage
+Open the Web App: Go to http://localhost:3003.
+
+Send a Message: Type your query into the input box.
+
+Observe Real-Time Conversation:
+
+The Node.js backend checks with the Python services to see if any tools should be called (e.g., a crypto price check or web search).
+The Graph RAG pipeline may retrieve relevant conversation snippets from the large message corpus, factoring in sentiment or subject matter.
+Summarization triggers automatically once token thresholds are reached.
+Look for Tool Usage:
+
+If your query involves crypto prices, you’ll see the system reference the Crypto Price Checker.
+If your query is about current news or specialized info, the system may invoke the Perplexity API for web search.
+Receive Final Answer:
+
+The system compiles the final answer from the tool outputs, context from the RAG engine, and the system prompt designed for Rin’s personality.
+
+7. Configuration
+Most configuration parameters are housed in environment variables or small config files within each subfolder. Some examples:
+
+Backend:
+
+PORT (default 3000)
+FRONTEND_PORT (default 3003)
+API keys for external services.
+Python Services:
+
+PYTHON_SERVICE_PORT (default 8000)
+Paths or credentials for the DB (Neo4j, vector store).
+API keys for Perplexity, CoinGecko, or other integrated tools.
+Example .env for Backend
+ini
+Copy
+Edit
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/rin_dev_db
-REDIS_URL=redis://localhost:6379
-JWT_SECRET=your_jwt_secret
+FRONTEND_PORT=3003
+PERPLEXITY_API_KEY=your-perplexity-key
+COINGECKO_API_URL=https://api.coingecko.com/api/v3/
+Example .env for Python Services
+ini
+Copy
+Edit
+PYTHON_SERVICE_PORT=8000
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=your-password
+EMBEDDINGS_MODEL=all-mpnet-base-v2
 
-# In backend/python_services/.env
-MONGO_URI=mongodb://localhost:27017/rin_dev_db
-```
+8. Needing a DB Schema
+For the Graph RAG functionality, you’ll want a Neo4j instance (or equivalent). We will soon provide:
 
-## Running the Application
+DB Schema: Node labels (e.g., Message), relationships (e.g., HAS_SENTIMENT, HAS_SUBJECT), indices, constraints.
+Processing Script: Bulk imports the 14,000+ Rin messages, setting attributes like sentiment, subject, effectiveness rating, etc.
+Stay tuned for an update in which we release these schema details and a sample dataset or seeds for your own usage.
 
-1. Start the Node.js backend:
-```bash
-cd backend/node
-npm start
-```
+9. Roadmap and Future Plans
+Multimodal Vtuber Live Stream
+We plan to release an orchestrator that merges this chat agent with a dual-Vtuber streaming setup. This will enable interactive live content with dynamic chat overlays, real-time sentiment analysis, and possible crypto trades triggered by audience sentiment.
 
-2. Start the Python services:
-```bash
-cd backend/python_services
-python main.py
-```
+Extended Tooling
+Additional APIs and specialized tools could be integrated (e.g., coding assistance, image generation, scheduling, and more).
 
-3. Open `frontend/index.html` in your browser or serve it with a static file server.
+Advanced Orchestration
+Enhancements to the summarization logic, better concurrency handling, and plugin-based expansions for the agent’s toolkit.
 
-## Development
+10. Contributing
+We heartily welcome and appreciate any and all contributions! To get started:
 
-- Frontend: Pure HTML/CSS/JS for simplicity and performance
-- Backend: Express.js with JWT authentication and rate limiting
-- AI Processing: Python with async support for AI operations
-- Database: MongoDB for chat history and user data
-- Caching: Redis for rate limiting and session management
+Fork this repository.
+Create a new branch for your feature or fix.
+Submit a Pull Request describing the changes you’ve made.
+We will review PRs as quickly as we can. Please read our CONTRIBUTING.md (coming soon) for more detailed guidelines on style, commits, and testing.
 
-## License
-
-ISC License
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+11. License
+This project is licensed under the MIT License. Feel free to use, modify, and distribute this software as stated within the license terms.
