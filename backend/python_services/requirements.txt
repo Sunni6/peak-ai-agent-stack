@@ -1,0 +1,40 @@
+# LangChain and related packages
+langchain-google-genai>=2.0.1
+langchain>=0.3.4
+langchain-core>=0.3.12
+langchain-experimental>=0.0.49
+langchain-community>=0.0.13
+langchain-openai>=0.2.3
+langchain-anthropic>=0.2.3
+
+# Database drivers
+neo4j>=5.14.0
+redis>=5.0.1
+aioredis>=2.0.1
+motor>=3.3.2
+apscheduler>=3.11.0
+pytz>=2024.2 # for timezone support
+
+# AI/ML packages
+openai>=1.12.0
+google-generativeai>=0.8.3
+together>=0.2.0
+anthropic>=0.37.1
+voyageai>=0.3.2
+groq>=0.13.1
+
+# Utility packages
+python-dotenv>=1.0.1
+tenacity>=8.5.0
+aiohttp>=3.10.10
+tqdm>=4.66.1
+fastapi>=0.115.6
+uvicorn[standard]>=0.25.0
+requests>=2.32.3  # For API testing
+pyjwt>=2.10.1  # For stream auth
+
+# Twitter API client
+tweepy>=4.14.0
+
+# Document processing
+tiktoken>=0.5.2

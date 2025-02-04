@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>リン.exe - Your Kawaii AI Companion</title>
+    <link rel="icon" type="image/x-icon" href="/public/images/rin.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/images/rin.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/images/rin.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/images/rin.png">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    <meta http-equiv="X-DNS-Prefetch-Control" content="on">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="//catgirlrin.com">
+    <link rel="preconnect" href="//catgirlrin.com">
+    <style>
+        body {
+            background-color: #120318;
+            color: #ff69b4;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 105, 180, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 60%, rgba(147, 112, 219, 0.1) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 800px;
+            width: calc(100% - 40px);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .glitch-text {
+            font-size: 3.25em;
+            text-shadow: 
+                2.6px 2.6px #ff00ff,
+                -2.6px -2.6px #00ffff;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
+            25% { text-shadow: -2px 2px #ff00ff, 2px -2px #00ffff; }
+            50% { text-shadow: 2px -2px #ff00ff, -2px 2px #00ffff; }
+            75% { text-shadow: -2px -2px #ff00ff, 2px 2px #00ffff; }
+            100% { text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
+        }
+
+        .status {
+            font-size: 0.9em;
+            color: #9370db;
+            margin-bottom: 10px;
+        }
+
+        .chat-window {
+            height: 60vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ff69b4;
+            border-radius: 8px;
+            background-color: rgba(18, 3, 24, 0.8);
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .rin-message {
+            background-color: rgba(255, 105, 180, 0.1);
+            margin-right: 20%;
+            border-left: 3px solid #ff69b4;
+        }
+
+        .user-message {
+            background-color: rgba(147, 112, 219, 0.1);
+            margin-left: 20%;
+            border-right: 3px solid #9370db;
+            text-align: right;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ff69b4;
+            border-radius: 8px;
+            background-color: rgba(18, 3, 24, 0.8);
+            color: #ff69b4;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff69b4;
+            border: none;
+            border-radius: 8px;
+            color: #120318;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #9370db;
+            transform: scale(1.05);
+        }
+
+        .kawaii-decoration {
+            position: fixed;
+            font-size: 1.5em;
+            opacity: 0.5;
+            pointer-events: none;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .rin-image {
+            position: fixed;
+            right: 2%;
+            bottom: 2%;
+            width: 300px;
+            height: auto;
+            opacity: 0.85;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .container:hover + .rin-image {
+            opacity: 0.6;
+        }
+
+        @media (min-width: 1201px) {
+            .rin-image {
+                right: 2%;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 700px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: calc(100% - 40px);
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .rin-image {
+                display: none;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #ff69b4;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+            width: 100%;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .footer span {
+            margin: 0 5px;
+        }
+
+        .interactive {
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .spin {
+            animation: spin 1s linear;
+        }
+
+        .bounce {
+            animation: bounce 0.5s cubic-bezier(0.36, 0, 0.66, -0.56);
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .kawaii-decoration {
+                font-size: 1.5em !important;
+            }
+            
+            /* Fixed positions for mobile decorations */
+            .kawaii-decoration:nth-child(1) { /* 🌸 */
+                top: 15% !important;
+                left: 10% !important;
+            }
+            
+            .kawaii-decoration:nth-child(2) { /* ✨ */
+                top: 15% !important;
+                right: 10% !important;
+            }
+            
+            .kawaii-decoration:nth-child(3) { /* 🎀 */
+                bottom: 30% !important;
+                left: 10% !important;
+            }
+            
+            .kawaii-decoration:nth-child(4) { /* 🌙 */
+                bottom: 30% !important;
+                right: 10% !important;
+            }
+            
+            .kawaii-decoration:nth-child(5) { /* 🌟 */
+                top: 45% !important;
+                left: 15% !important;
+            }
+            
+            .kawaii-decoration:nth-child(6) { /* 🎵 */
+                top: 45% !important;
+                right: 15% !important;
+            }
+
+            /* Ensure container has enough space */
+            .container {
+                padding: 10px;
+                margin-bottom: 120px;
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 52px;
+            margin: 0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 2.34em;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 39px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <audio id="clickSound" preload="auto">
+        <source src="/public/sounds/click.mp3" type="audio/mp3">
+    </audio>
+    <audio id="messageSound" preload="auto">
+        <source src="/public/sounds/message.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="kawaii-decoration" style="top: 10%; left: 10%;">🌸</div>
+    <div class="kawaii-decoration" style="top: 20%; right: 15%;">✨</div>
+    <div class="kawaii-decoration" style="bottom: 15%; left: 20%;">🎀</div>
+    <div class="kawaii-decoration" style="bottom: 25%; right: 10%;">🌙</div>
+    <div class="kawaii-decoration interactive" onclick="playSound('clickSound'); this.classList.add('spin')" style="top: 30%; left: 30%;">🌟</div>
+    <div class="kawaii-decoration interactive" onclick="playSound('clickSound'); this.classList.add('bounce')" style="top: 40%; right: 25%;">🎵</div>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <a href="/treasure" 
+                   class="nav-link interactive" 
+                   onclick="playSound('clickSound')"
+                   title="Find Rin's treasure!">
+                    🎁
+                </a>
+                <a href="/secrets" 
+                   class="nav-link interactive" 
+                   onclick="playSound('clickSound')"
+                   title="Discover Rin's secrets...">
+                    📖
+                </a>
+                <h1 class="glitch-text">リン.exe</h1>
+                <a href="/simpinomics" 
+                   class="nav-link interactive" 
+                   onclick="playSound('clickSound')"
+                   title="Explore Rin's Tokenomics">
+                    💎
+                </a>
+                <a href="/basenomics" 
+                   class="nav-link interactive" 
+                   onclick="playSound('clickSound')"
+                   title="Explore Base Economics">
+                    🚀
+                </a>
+            </div>
+            <div class="status">⚡ Status: Living my best life ~nya! ⚡</div>
+        </div>
+
+        <div class="chat-window" id="chatWindow">
+            <div class="message rin-message">
+                Konnichiwa! (*^* I'm Rin~ Currently sipping bubble tea at my fave maid cafe! 
+                Wanna chat about anime, AI, or maybe join me for some late-night Tokyo adventures? 
+                Don't worry about the bill, tehehe~ 
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Send a message to Rin...">
+            <button onclick="playSound('clickSound'); sendMessage()">✨ Send</button>
+        </div>
+    </div>
+
+    <img src="/public/images/rin.svg" alt="Rin" class="rin-image">
+
+    <div class="footer">
+        ✧･ﾟ buy me (リズリサ) <span>rincat.near</span> ･ﾟ
+        <a href="https://twitter.com/catgirlonchain" 
+           target="_blank" 
+           style="text-decoration: none; margin-left: 10px;" 
+           class="interactive">
+            <img src="/public/images/twitter-x.svg" 
+                 alt="Twitter" 
+                 style="width: 16px; height: 16px; filter: invert(73%) sepia(91%) saturate(3139%) hue-rotate(297deg) brightness(101%) contrast(101%);"
+                 onmouseover="this.style.filter='invert(67%) sepia(14%) saturate(2169%) hue-rotate(223deg) brightness(96%) contrast(91%)'"
+                 onmouseout="this.style.filter='invert(73%) sepia(91%) saturate(3139%) hue-rotate(297deg) brightness(101%) contrast(101%)'"
+            >
+        </a>
+        <a href="https://t.me/catgirlonchain" 
+           target="_blank" 
+           style="text-decoration: none; margin-left: 10px;" 
+           class="interactive">
+            <img src="/public/images/telegram.svg" 
+                 alt="Telegram" 
+                 style="width: 16px; height: 16px; filter: invert(73%) sepia(91%) saturate(3139%) hue-rotate(297deg) brightness(101%) contrast(101%);"
+                 onmouseover="this.style.filter='invert(67%) sepia(14%) saturate(2169%) hue-rotate(223deg) brightness(96%) contrast(91%)'"
+                 onmouseout="this.style.filter='invert(73%) sepia(91%) saturate(3139%) hue-rotate(297deg) brightness(101%) contrast(101%)'"
+            >
+        </a>
+    </div>
+
+    <script>
+        const API_CONFIG = {
+            baseUrl: '/api',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        let currentToken = null;
+        let currentSessionId = null;
+
+        async function authenticate() {
+            try {
+                console.log('Starting authentication...');
+                
+                // Step 1: Get auth token (send empty object as body)
+                const authResponse = await fetch(`${API_CONFIG.baseUrl}/rin/auth`, {
+                    method: 'POST',
+                    headers: API_CONFIG.headers,
+                    body: JSON.stringify({})
+                });
+                
+                const authData = await authResponse.json();
+                if (!authResponse.ok || !authData.accessToken) {
+                    throw new Error('Authentication failed');
+                }
+                
+                currentToken = authData.accessToken;
+                currentSessionId = authData.sessionId;
+                console.log('Authentication successful:', { token: !!currentToken, sessionId: currentSessionId });
+
+                // Show welcome message
+                const chatWindow = document.getElementById('chatWindow');
+                const welcomeDiv = document.createElement('div');
+                welcomeDiv.className = 'message rin-message';
+                welcomeDiv.textContent = 'Konnichiwa! How can I help you today? ^_^';
+                chatWindow.appendChild(welcomeDiv);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                showError('Connection failed! Please try again later.');
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (message === '' || !currentSessionId || !currentToken) return;
+            
+            input.value = '';
+            appendMessage(message, 'user-message');
+
+            try {
+                const response = await fetch(`${API_CONFIG.baseUrl}/rin/chat`, {
+                    method: 'POST',
+                    headers: {
+                        ...API_CONFIG.headers,
+                        'Authorization': `Bearer ${currentToken}`
+                    },
+                    body: JSON.stringify({
+                        sessionId: currentSessionId,
+                        message: message
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to send message');
+                }
+
+                // Show response
+                appendMessage(data.response, 'rin-message');
+                playSound('messageSound');
+
+            } catch (error) {
+                console.error('Send message error:', error);
+                showError('Gomen ne~ Message failed to send (╥﹏╥)');
+            }
+        }
+
+        // Helper functions
+        function appendMessage(content, className) {
+            const chatWindow = document.getElementById('chatWindow');
+            const div = document.createElement('div');
+            div.className = `message ${className}`;
+            div.textContent = content;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function showError(message) {
+            appendMessage(message, 'rin-message');
+        }
+
+        function playSound(soundId) {
+            const sound = document.getElementById(soundId);
+            sound.volume = 0.3;
+            sound.currentTime = 0;
+            sound.play().catch(err => console.log('Sound play failed:', err));
+        }
+
+        document.addEventListener('DOMContentLoaded', authenticate);
+
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
