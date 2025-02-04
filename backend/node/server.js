@@ -9,11 +9,8 @@ const logger = require('./utils/logger');
 const { spawn } = require('child_process');
 const path = require('path');
 const axios = require('axios');
-const pythonApiRoutes = require('./routes/pythonApi');
 const cors = require('cors');
-const apiRoutes = require('./routes/api');
 const rinRoutes = require('./routes/rinRoutes');
-const authRoutes = require('./auth/authRoutes');
 
 const app = express();
 const frontendApp = express();
@@ -32,9 +29,7 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-app.use('/api', apiRoutes);  // API routes first
-app.use('/api/rin/auth', authRoutes);
-app.use('/api/rin', rinRoutes);
+app.use('/api/rin', rinRoutes);  // Only Rin routes
 app.use(morgan('combined', { stream: logger.stream }));
 
 // Health check endpoint
