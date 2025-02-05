@@ -34,7 +34,7 @@ RinAI's architecture comprises three main components:
 
 * **Front-End Interface (Port 3003):** A user-friendly web application providing an interactive interface for chatting with Rin.  User input is captured and forwarded to the backend.
 
-![RinAI Front-End Interface](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Front%20End%20Interface.png)
+![RinAI Front-End Interface](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Frontend%20Interface.png)
 
 * **Backend Server (Port 3000):** A Node.js server that routes user messages between the front-end and the Python services.
 
