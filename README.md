@@ -91,14 +91,14 @@ Once running, navigate to http://localhost:3003 to access the Rin web app.
 
 6. **Generate Keys (for Python Service and Rin Chat):**
 
-    Before starting the application, you need to generate API keys for the Python service and Rin Chat.  These keys are used for authentication and authorization.
+Before starting the application, you need to generate API keys for the Python service and Rin Chat.  These keys are used for authentication and authorization.
 
    ```bash
    cd backend/node/utils
    node generateKeys.js PYTHON_SERVICES
    node generateKeys.js RIN_CHAT
    ```
-    Example output:
+Example output:
 
     Generated keys for Client PYTHON_SERVICES:
     ----------------------------------------
@@ -141,8 +141,6 @@ Start the server (this will launch both Node.js and Python services):
 **Receive Final Answer:** RinAI compiles the final answer from tool outputs, RAG context, and the system prompt, reflecting Rin's personality.
 
 ## Configuration
-    Most configuration parameters are housed in environment variables or small config files within each subfolder. Some examples:
-
     LLM & RAG API Keys
     ANTHROPIC_API_KEY=your_anthropic_key
     TOGETHER_API_KEY=your_together_key
@@ -184,26 +182,20 @@ Start the server (this will launch both Node.js and Python services):
     RIN_CHAT_ACCESS_TOKEN_EXPIRY=30m
     RIN_CHAT_REFRESH_TOKEN_EXPIRY=1d
 
-Needing a DB Schema
-For the Graph RAG functionality, you’ll want a Neo4j instance (or equivalent). We will soon provide:
+## Neo4j Database Schema and Customization
+The /backend/python_services/core/graphrag directory requires customization based on your data. Rin's schema is based on 18,000+ deeply processed messages focused on sentiment and intimacy. Your goals may differ, but the logic will be similar.  You can easily ingest any data or documentation into Neo4j for your own customized Graph RAG memory. LangChain provides a great template structure for any graphRAG implementation.
 
-DB Schema: Node labels (e.g., Message), relationships (e.g., HAS_SENTIMENT, HAS_SUBJECT), indices, constraints.
-Processing Script: Bulk imports the 14,000+ Rin messages, setting attributes like sentiment, subject, effectiveness rating, etc.
-Stay tuned for an update in which we release these schema details and a sample dataset or seeds for your own usage.
-
-Extended Tooling
+## Extended Tooling
 Additional APIs and specialized tools could be integrated (e.g., coding assistance, image generation, scheduling, and more).
 
-Advanced Orchestration
-Enhancements to the summarization logic, better concurrency handling, and plugin-based expansions for the agent’s toolkit.
-
-Contributing
+## Contributing
 We heartily welcome and appreciate any and all contributions! To get started:
 
-Fork this repository.
-Create a new branch for your feature or fix.
-Submit a Pull Request describing the changes you’ve made.
+* Fork this repository.
+* Create a new branch for your feature or fix.
+* Submit a Pull Request describing the changes you’ve made.
+
 We will review PRs as quickly as we can. Please read our CONTRIBUTING.md (coming soon) for more detailed guidelines on style, commits, and testing.
 
-License
+## License
 This project is licensed under the MIT License. Feel free to use, modify, and distribute this software as stated within the license terms.
