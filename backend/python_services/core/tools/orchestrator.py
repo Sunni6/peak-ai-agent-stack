@@ -308,6 +308,13 @@ For current events:
     async def _get_crypto_data(self, symbol: str, include_details: bool = False) -> Dict:
         """Get cryptocurrency data with proper session handling"""
         try:
+            if not self.coingecko:
+                return {
+                    "status": "error",
+                    "error": "CoinGecko client not initialized",
+                    "timestamp": datetime.utcnow().isoformat()
+                }
+
             # Get CoinGecko ID
             coingecko_id = await self.coingecko._get_coingecko_id(symbol)
             if not coingecko_id:
@@ -317,7 +324,7 @@ For current events:
                     "timestamp": datetime.utcnow().isoformat()
                 }
 
-            # Gather all requested data concurrently
+            # Create tasks for all data fetching
             tasks = [self.coingecko.get_token_price(coingecko_id)]
             
             if include_details:
@@ -328,16 +335,20 @@ For current events:
                     self.coingecko.get_global_data()
                 ])
 
+            # Execute all tasks concurrently
             results = await asyncio.gather(*tasks, return_exceptions=True)
             
             # Process results
             data = {}
             for i, result in enumerate(results):
                 if isinstance(result, Exception):
-                    logger.error(f"Error in crypto data fetch: {result}")
+                    logger.error(f"Error in crypto data fetch task {i}: {result}")
                     continue
                 if result:
-                    data.update(result)
+                    if isinstance(result, dict):
+                        data.update(result)
+                    else:
+                        logger.warning(f"Unexpected result type for task {i}: {type(result)}")
 
             return {
                 "status": "success",

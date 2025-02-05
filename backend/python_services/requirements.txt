@@ -11,6 +11,7 @@ langchain-anthropic>=0.2.3
 neo4j>=5.14.0
 motor>=3.3.2
 pytz>=2024.2 # for timezone support
+pydantic>=2.10.6
 
 # AI/ML packages
 openai>=1.12.0
