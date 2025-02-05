@@ -59,7 +59,7 @@ Once running, navigate to http://localhost:3003 to access the Rin web app.
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/](https://github.com/)<your-username>/peak-ai-agent.git
+   git clone [https://github.com/](https://github.com/)<your-username>/peak-ai-agent-stack.git
    cd peak-ai-agent
    ```
 
@@ -89,9 +89,12 @@ Once running, navigate to http://localhost:3003 to access the Rin web app.
    pip install -r requirements.txt
    ```
 
-6. **Generate Keys (for Python Service and Rin Chat):**
+6. **Environment Configuration**
+    Create `.env` file in `/backend` directory:
 
-Before starting the application, you need to generate API keys for the Python service and Rin Chat.  These keys are used for authentication and authorization.
+7. **Generate Keys (for Python Service and Rin Chat):**
+
+Before starting the application, you need to generate API keys for the Python service and Rin Chat.
 
    ```bash
    cd backend/node/utils
@@ -111,9 +114,6 @@ Example output:
     RIN_CHAT_SECRET=dpTkrTN04PuMXyIJw1MRd/V7MnTCXpmyzz6o3NER/HBaq/xhEzXCp67425B+CLqNW47tprDW/Yu/z64nryuVIQ==
 
     Copy these keys into your environment variables.
-
-7. **Environment Configuration**
-    Create `.env` file in `/backend` directory:
 
 8. **Start the Application**
 Start the server (this will launch both Node.js and Python services):
@@ -141,6 +141,8 @@ Start the server (this will launch both Node.js and Python services):
 **Receive Final Answer:** RinAI compiles the final answer from tool outputs, RAG context, and the system prompt, reflecting Rin's personality.
 
 ## Configuration
+Reference env.example in the backend directory for a complete list of environment variables.
+    
     LLM & RAG API Keys
     ANTHROPIC_API_KEY=your_anthropic_key
     TOGETHER_API_KEY=your_together_key
