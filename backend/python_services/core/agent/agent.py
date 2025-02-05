@@ -3,6 +3,12 @@ Copyright (c) 2025 dleerdefi & Aggregated AI
 Licensed under the MIT License. See LICENSE in the project root for license information.
 """
 
+import asyncio
+import platform
+
+if platform.system() == 'Windows':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 import sys
 import os
 import logging
@@ -10,7 +16,6 @@ from pathlib import Path
 from typing import Dict, Optional, List, Any
 from datetime import datetime
 import json
-import asyncio
 
 # Configure logging
 logger = logging.getLogger(__name__)

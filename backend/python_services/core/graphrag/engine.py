@@ -1,3 +1,9 @@
+import asyncio
+import platform
+
+if platform.system() == 'Windows':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 from voyageai import Client
 from neo4j import GraphDatabase
 import os
