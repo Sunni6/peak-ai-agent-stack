@@ -135,7 +135,7 @@ class RinResponseEnricher:
         intents = {
             'greeting': ['hey', 'whats up', 'yo', 'hai', 'hello', 'hi'],
             'personal': ['yourself', 'about you', 'share', 'sad', 'lonely', 'depressed', 'who are'],
-            'nsfw': ['ass', 'anal', 'porn', 'fuck', 'pussy', 'cock', 'cum', 'horny', 'lick', 'suck', 'blow', 'sex'],
+            'nsfw': ['ass', 'porn', 'fuck', 'cum', 'horny', 'sex'],
             'interests': ['favorite', 'like', 'enjoy', 'crypto', 'art', 'anime', 'gaming', 'internet culture']
         }
         

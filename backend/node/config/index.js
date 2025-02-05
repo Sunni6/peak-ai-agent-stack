@@ -19,20 +19,6 @@ const config = {
     // Server configuration
     port: process.env.PORT || 3000,
     nodeEnv: process.env.NODE_ENV || 'development',
-    
-    // Redis configuration
-    redis: {
-        host: process.env.REDIS_HOST,
-        port: parseInt(process.env.REDIS_PORT),
-        password: process.env.REDIS_PASSWORD,
-        connectTimeout: 10000,
-        maxRetriesPerRequest: 5,
-        retryStrategy(times) {
-            const delay = Math.min(times * 50, 2000);
-            return delay;
-        },
-        enableReadyCheck: true
-    },
 
     // MongoDB configuration
     mongoUri: process.env.MONGO_URI,
@@ -50,6 +36,7 @@ const config = {
         openai: process.env.OPENAI_API_KEY,
         anthropic: process.env.ANTHROPIC_API_KEY,
         together: process.env.TOGETHER_API_KEY,
+        novita: process.env.NOVITA_API_KEY,
         groq: process.env.GROQ_API_KEY
     },
 
@@ -70,19 +57,6 @@ const config = {
 if (!config.mongoUri) {
     console.error('❌ MONGO_URI environment variable is required');
     process.exit(1);
-}
-
-if (process.env.NODE_ENV === 'production') {
-    if (!config.redis.host || !config.redis.port || !config.redis.password) {
-        console.error('❌ Required Redis environment variables are missing');
-        process.exit(1);
-    }
-    
-    console.log('Redis Configuration:', {
-        host: config.redis.host,
-        port: config.redis.port,
-        environment: process.env.NODE_ENV
-    });
 }
 
 if (!config.pythonService.apiKey || !config.pythonService.secret) {
