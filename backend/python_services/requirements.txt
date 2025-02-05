@@ -9,10 +9,7 @@ langchain-anthropic>=0.2.3
 
 # Database drivers
 neo4j>=5.14.0
-redis>=5.0.1
-aioredis>=2.0.1
 motor>=3.3.2
-apscheduler>=3.11.0
 pytz>=2024.2 # for timezone support
 
 # AI/ML packages
