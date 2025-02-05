@@ -1,7 +1,7 @@
 # RinAI: Your Advanced Agentic Companion
 ![RinAI Banner](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Banner.png)
 
-RinAI is a sophisticated agentic companion, leveraging graph-based Retrieval Augmented Generation (RAG), real-time tool usage, intelligent context management, and a dynamic Large Language Model (LLM) gateway.  This combination empowers RinAI to engage in roleplaying, hold flirty conversations, and provide insightful responses based on a rich understanding of context and access to up-to-date information.
+RinAI is a sophisticated agentic companion, leveraging graph-based Retrieval Augmented Generation (RAG), real-time tool usage, intelligent context management, and a dynamic Large Language Model (LLM) gateway. This combination empowers RinAI to engage in roleplaying, hold flirty conversations, and provide insightful responses based on a rich understanding of context and access to up-to-date information.
 
 ## Key Features
 
@@ -192,10 +192,14 @@ Reference env.example in the backend directory for a complete list of environmen
     RIN_CHAT_REFRESH_TOKEN_EXPIRY=1d
 
 ## Neo4j Database Schema and Customization
-The /backend/python_services/core/graphrag directory requires customization based on your data. Rin's schema is based on 18,000+ deeply processed messages focused on sentiment and intimacy. Your goals may differ, but the logic will be similar.  You can easily ingest any data or documentation into Neo4j for your own customized Graph RAG memory. LangChain provides a great template structure for any graphRAG implementation.
+The /backend/python_services/core/graphrag directory requires customization based on your data. 
+
+Rin's schema is based on 18,000+ deeply processed messages focused on sentiment and intimacy. Your goals may differ, but the logic will be similar.  You can easily ingest any data or documentation into Neo4j for your own customized Graph RAG memory. LangChain provides a great template structure for any graphRAG implementation.
+
+![RinAI Graph RAG](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Neo4j%20Graph%20Example.png)
 
 ## Extended Tooling
-Additional APIs and specialized tools could be integrated (e.g., coding assistance, image generation, scheduling, and more).
+Additional APIs and specialized tools can be easily integrated to the tool orchestrator.
 
 ## Contributing
 We heartily welcome and appreciate any and all contributions! To get started:
