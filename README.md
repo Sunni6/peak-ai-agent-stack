@@ -1,8 +1,11 @@
 # RinAI: Your Advanced Agentic Companion
+![RinAI Banner](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Banner.png)
 
 RinAI is a sophisticated agentic companion, leveraging graph-based Retrieval Augmented Generation (RAG), real-time tool usage, intelligent context management, and a dynamic Large Language Model (LLM) gateway.  This combination empowers RinAI to engage in roleplaying, hold flirty conversations, and provide insightful responses based on a rich understanding of context and access to up-to-date information.
 
 ## Key Features
+
+![RinAI Agent Stack](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Agent%20Stack.png)
 
 * **Rin Chat Agent:**
     * Engaging roleplay and flirty conversations powered by a fine-tuned uncensored LLM.
@@ -23,11 +26,15 @@ RinAI is a sophisticated agentic companion, leveraging graph-based Retrieval Aug
     * Automated summarization of conversations once a token threshold is reached.
     * Maintains the latest 25% of messages intact while summarizing the older 75% in the background, ensuring context continuity.
 
+![RinAI Smart Context Management](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Smart%20Context.png)
+
 ## Architecture
 
 RinAI's architecture comprises three main components:
 
-* **Front-End Interface (Port 3003):** A user-friendly web application providing an interactive interface for chatting with Rin.  User input is captured and forwarded to the backend.  *(Consider adding a screenshot or mockup of the interface here)*
+* **Front-End Interface (Port 3003):** A user-friendly web application providing an interactive interface for chatting with Rin.  User input is captured and forwarded to the backend.
+
+![RinAI Front-End Interface](https://github.com/dleerdefi/peak-ai-agent-stack/blob/main/assets/images/RinAI%20Front%20End%20Interface.png)
 
 * **Backend Server (Port 3000):** A Node.js server that routes user messages between the front-end and the Python services.
 
