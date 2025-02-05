@@ -91,28 +91,29 @@ Once running, navigate to http://localhost:3003 to access the Rin web app.
 
 6. **Generate Keys (for Python Service and Rin Chat):**
 
-Before starting the application, you need to generate API keys for the Python service and Rin Chat.  These keys are used for authentication and authorization.
+    Before starting the application, you need to generate API keys for the Python service and Rin Chat.  These keys are used for authentication and authorization.
 
    ```bash
    cd backend/node/utils
    node generateKeys.js PYTHON_SERVICES
    node generateKeys.js RIN_CHAT
    ```
-Example output:
+    Example output:
 
-Generated keys for Client PYTHON_SERVICES:
-----------------------------------------
-PYTHON_SERVICES_API_KEY=ea05d15b578a8e258d0a7864bbe7dd2d91312d5d75edc9677e326fbb2ac2d505
-PYTHON_SERVICES_SECRET=/j27kVwGGBb4fTaVNwnAzkac3xRy1qU+NZpST7MQaK0n6Lj+AaNCTid60ZNitT3htAFPSv5lAzpSKbflp3lW5A==
+    Generated keys for Client PYTHON_SERVICES:
+    ----------------------------------------
+    PYTHON_SERVICES_API_KEY=ea05d15b578a8e258d0a7864bbe7dd2d91312d5d75edc9677e326fbb2ac2d505
+    PYTHON_SERVICES_SECRET=/j27kVwGGBb4fTaVNwnAzkac3xRy1qU+NZpST7MQaK0n6Lj+AaNCTid60ZNitT3htAFPSv5lAzpSKbflp3lW5A==
 
-Generated keys for Client RIN_CHAT:
-----------------------------------------
-RIN_CHAT_API_KEY=c0aa64c5645821634cf2fb8380ebf25e856e90e9ec8c09f2170dd25932fc529e
-RIN_CHAT_SECRET=dpTkrTN04PuMXyIJw1MRd/V7MnTCXpmyzz6o3NER/HBaq/xhEzXCp67425B+CLqNW47tprDW/Yu/z64nryuVIQ==
+    Generated keys for Client RIN_CHAT:
+    ----------------------------------------
+    RIN_CHAT_API_KEY=c0aa64c5645821634cf2fb8380ebf25e856e90e9ec8c09f2170dd25932fc529e
+    RIN_CHAT_SECRET=dpTkrTN04PuMXyIJw1MRd/V7MnTCXpmyzz6o3NER/HBaq/xhEzXCp67425B+CLqNW47tprDW/Yu/z64nryuVIQ==
 
-Copy these keys into your environment variables.
+    Copy these keys into your environment variables.
+
 7. **Environment Configuration**
-Create `.env` file in `/backend` directory:
+    Create `.env` file in `/backend` directory:
 
 8. **Start the Application**
 Start the server (this will launch both Node.js and Python services):
@@ -140,48 +141,48 @@ Start the server (this will launch both Node.js and Python services):
 **Receive Final Answer:** RinAI compiles the final answer from tool outputs, RAG context, and the system prompt, reflecting Rin's personality.
 
 ## Configuration
-Most configuration parameters are housed in environment variables or small config files within each subfolder. Some examples:
+    Most configuration parameters are housed in environment variables or small config files within each subfolder. Some examples:
 
-LLM & RAG API Keys
-ANTHROPIC_API_KEY=your_anthropic_key
-TOGETHER_API_KEY=your_together_key
-NOVITA_API_KEY=your_novita_key
-PERPLEXITY_API_KEY=your_perplexity_key
-GROQ_API_KEY=your_groq_key
-OPENAI_API_KEY=your_openai_key
-VOYAGE_API_KEY=your_voyage_key
+    LLM & RAG API Keys
+    ANTHROPIC_API_KEY=your_anthropic_key
+    TOGETHER_API_KEY=your_together_key
+    NOVITA_API_KEY=your_novita_key
+    PERPLEXITY_API_KEY=your_perplexity_key
+    GROQ_API_KEY=your_groq_key
+    OPENAI_API_KEY=your_openai_key
+    VOYAGE_API_KEY=your_voyage_key
 
-Tools
-COINGECKO_API_KEY=your_coingecko_key
+    Tools
+    COINGECKO_API_KEY=your_coingecko_key
 
-MongoDB
-MONGO_DB=your_mongodb_database_name
-MONGO_URI=mongodb+srv://<your_mongodb_username>:<your_mongodb_password>@<your_mongodb_cluster>.mongodb.net/?retryWrites=true&w=majority  # Example URI
+    MongoDB
+    MONGO_DB=your_mongodb_database_name
+    MONGO_URI=mongodb+srv://<your_mongodb_username>:<your_mongodb_password>@<your_mongodb_cluster>.mongodb.net/?retryWrites=true&w=majority  # Example URI
 
-Neo4j & AuraDB
-AURA_INSTANCE_ID=your_aura_instance_id
-AURA_INSTANCE_NAME=your_aura_instance_name
-NEO4J_PASSWORD=your_neo4j_password
-NEO4J_URI=bolt://<your_aura_instance_id>.databases.neo4j.io:7687  # Example URI
-NEO4J_USERNAME=neo4j  # Typically 'neo4j'
+    Neo4j & AuraDB
+    AURA_INSTANCE_ID=your_aura_instance_id
+    AURA_INSTANCE_NAME=your_aura_instance_name
+    NEO4J_PASSWORD=your_neo4j_password
+    NEO4J_URI=bolt://<your_aura_instance_id>.databases.neo4j.io:7687  # Example URI
+    NEO4J_USERNAME=neo4j  # Typically 'neo4j'
 
-Backend
-BACKEND_URL=http://localhost:3000  
-NODE_ENV=development # Or 'production'
-PORT=3000
+    Backend
+    BACKEND_URL=http://localhost:3000  
+    NODE_ENV=development # Or 'production'
+    PORT=3000
 
-Python API Server
-PYTHON_SERVICE_API_KEY=your_python_api_key #from generateKeys.js
-PYTHON_SERVICE_SECRET=your_python_api_secret #from generateKeys.js
-PYTHON_SERVICE_URL=http://localhost:8000
+    Python API Server
+    PYTHON_SERVICE_API_KEY=your_python_api_key #from generateKeys.js
+    PYTHON_SERVICE_SECRET=your_python_api_secret #from generateKeys.js
+    PYTHON_SERVICE_URL=http://localhost:8000
 
-Rin Chat
-RIN_CHAT_API_KEY=your_rin_chat_api_key #from generateKeys.js
-RIN_CHAT_CLIENT_SECRET=your_rin_chat_client_secret #from generateKeys.js
-RIN_CHAT_RATE_LIMIT=100
-RIN_CHAT_WINDOW=25
-RIN_CHAT_ACCESS_TOKEN_EXPIRY=30m
-RIN_CHAT_REFRESH_TOKEN_EXPIRY=1d
+    Rin Chat
+    RIN_CHAT_API_KEY=your_rin_chat_api_key #from generateKeys.js
+    RIN_CHAT_CLIENT_SECRET=your_rin_chat_client_secret #from generateKeys.js
+    RIN_CHAT_RATE_LIMIT=100
+    RIN_CHAT_WINDOW=25
+    RIN_CHAT_ACCESS_TOKEN_EXPIRY=30m
+    RIN_CHAT_REFRESH_TOKEN_EXPIRY=1d
 
 Needing a DB Schema
 For the Graph RAG functionality, you’ll want a Neo4j instance (or equivalent). We will soon provide:
