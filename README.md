@@ -211,4 +211,4 @@ We heartily welcome and appreciate any and all contributions! To get started:
 We will review PRs as quickly as we can. Please read our CONTRIBUTING.md (coming soon) for more detailed guidelines on style, commits, and testing.
 
 ## License
-This project is licensed under the MIT License. Feel free to use, modify, and distribute this software as stated within the license terms.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
