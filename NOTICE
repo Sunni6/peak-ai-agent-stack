@@ -1,0 +1,11 @@
+# Notices for Peak AI Agent Stack
+
+This project includes the following third-party software:
+
+## LangChain
+* License: MIT
+* Source: https://github.com/langchain-ai/langchain
+
+## Neo4j
+* License: Various
+* Source: https://github.com/neo4j/neo4j

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2025 dleerdefi & Aggregated AI
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
