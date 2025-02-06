@@ -54,6 +54,8 @@ Once running, navigate to http://localhost:3003 to access the Rin web app.
 
 ## Getting Started
 
+📺 **[Watch the Rin AI Demo](https://www.youtube.com/watch?v=ZhSZ-NG8hgY&t=2s)**
+
 ### Prerequisites
 
 * Node.js (v18+ recommended)
